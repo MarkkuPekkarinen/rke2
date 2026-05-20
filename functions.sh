@@ -409,7 +409,8 @@ function demo () {
   echo -e -n " -$BLUE rustfs.$domain |$NO_COLOR admin / $password"
   helm upgrade -i rustfs rustfs --repo https://charts.rustfs.com/ -n rustfs --create-namespace --set ingress.className="nginx",mode.standalone.enabled="true",mode.distributed.enabled="false",storageclass.name=longhorn,storageclass.dataStorageSize=10Gi,storageclass.logStorageSize=500Mi,secret.rustfs.access_key=admin,secret.rustfs.secret_key=$password,ingress.hosts[0].host="rustfs.$domain",ingress.hosts[0].paths[0].path="/",ingress.hosts[0].paths[0].pathType="ImplementationSpecific" --wait > /dev/null 2>&1
   
-  # add minio for px backup
+  sleep 30
+  # add bucket for px backup
   export MC_INSECURE=TRUE
   mc alias set rustfs https://rustfs.$domain admin Pa22word -q > /dev/null 2>&1
   mc mb rustfs/px-backup -q > /dev/null 2>&1
