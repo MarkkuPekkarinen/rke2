@@ -93,11 +93,11 @@ if [ "$prefix" != k3s ] && [ "$prefix" != rke ]; then exit; fi
 
 if [ "$prefix" = k3s ]; then
   echo -e -n " - deploying k3s"
-  k3sup install --ip $server --user root --cluster --k3s-extra-args '' --k3s-channel $k8s_version --local-path ~/.kube/config > /dev/null 2>&1
+  k3sup install --ip $server --user root --cluster --k3s-extra-args '' --k3s-channel $k8s_version --local-path ~/.kube/config --ssh-key ~/.ssh/id_ed25519 > /dev/null 2>&1
   # --k3s-extra-args '--disable traefik'
 
   for workeri in $(dolist | sed 1d | awk '{print $3}'); do 
-    k3sup join --ip $workeri --server-ip $server --user root --k3s-extra-args '' --k3s-channel $k8s_version > /dev/null 2>&1
+    k3sup join --ip $workeri --server-ip $server --user root --k3s-extra-args '' --k3s-channel $k8s_version --ssh-key ~/.ssh/id_ed25519 > /dev/null 2>&1
   done 
   
   info_ok
